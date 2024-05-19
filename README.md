@@ -34,3 +34,34 @@ $ time ruff check src
 All checks passed!
 ruff check src  0.36s user 1.71s system 170% cpu 1.213 total
 ```
+
+## Why is fixit slow?
+
+Digging into this some more, I wanted to try and narrow down what could be the
+primary bottlenecks. This section will be updated as I learn more.
+
+
+### Trailrunner
+
+Fixit uses a package called `trailrunner` to walk the tree of files and execute
+a function against each path found. It uses a process pool to parallelize this
+part of the process.
+
+Simply generating the set of paths to walk takes about 8 seconds:
+
+```
+$ time python walk_paths.py
+python walk_paths.py  7.59s user 3.50s system 124% cpu 8.935 total
+```
+
+A naive implementation that uses `os.walk` to generate the paths takes about 1.5
+seconds:
+
+```
+$ time python walk_paths_naive.py
+Files: 41111
+python walk_paths_naive.py  0.19s user 0.92s system 84% cpu 1.304 total
+```
+
+But note that the naive version does not do any regex filtering or gitignore
+filtering, so it's not an exact comparison.

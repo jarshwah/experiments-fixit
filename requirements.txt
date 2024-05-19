@@ -1,2 +1,3 @@
 fixit==2.1.0
 ruff==0.4.4
+trailrunner==1.4.0
