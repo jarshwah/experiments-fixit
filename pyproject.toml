@@ -1,0 +1,13 @@
+[tool.fixit]
+root = true
+enable-root-import = "src"
+disable=["fixit.rules"]
+enable=[
+    "rules:Nothing",
+]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+ignore = []
+fixable = ["ALL"]
+unfixable = []
