@@ -65,3 +65,14 @@ python walk_paths_naive.py  0.19s user 0.92s system 84% cpu 1.304 total
 
 But note that the naive version does not do any regex filtering or gitignore
 filtering, so it's not an exact comparison.
+
+If we configure trailrunner to use a single process, it runs in under a second.
+
+```
+$ time python walk_paths_single.py
+python walk_paths_single.py  0.09s user 0.04s system 37% cpu 0.347 total
+```
+
+Once the paths are collected, if there is more than one, trailrunner is again
+used via `run_iter` which does, indeed, speed things up dispatching over multiple
+processes.
