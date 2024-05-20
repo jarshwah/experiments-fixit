@@ -76,3 +76,22 @@ python walk_paths_single.py  0.09s user 0.04s system 37% cpu 0.347 total
 Once the paths are collected, if there is more than one, trailrunner is again
 used via `run_iter` which does, indeed, speed things up dispatching over multiple
 processes.
+
+
+### Generate Config
+
+A new configuration is generated for each file being linted in `generate_config`.
+There should be a relatively (compared to the number of linted files) small number
+of possible configs. If these could be cached, we might see a speed up. Let's see
+how long it takes to generate a config-per-file:
+
+```
+$ time python generate_configs.py
+41111 configs generated
+python generate_configs.py  12.23s user 4.90s system 88% cpu 19.339 total
+```
+
+About 19 seconds, including the naive os.walk of the tree-of-modules.
+
+It seems we've accounted for nearly half of the total runtime when we just consider
+the file discovery and config generation mechanisms.
