@@ -1,10 +1,10 @@
-from trailrunner import walk_and_run as run
+from trailrunner import walk
 import pathlib
 
 
 def main():
-    run([pathlib.Path("./src").resolve()], str)
-
+    files = list(walk(pathlib.Path("./src")))
+    print(f"Files: {len(files)}")
 
 if __name__ == "__main__":
     main()
